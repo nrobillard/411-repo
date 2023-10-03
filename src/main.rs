@@ -10,8 +10,8 @@ fn main() {
     let array_row_major = Array2::from_row_major(data_row_major.clone(), height, width);
 
     // Print the row-major representation
-    //println!("Row-Major Order:");
-    //array_row_major.print_row_major();
+    println!("Row-Major Order:");
+    array_row_major.print_row_major();
 
 
     // Create Array2 from column-major data
@@ -19,7 +19,7 @@ fn main() {
 
     // Print the column-major representation
     println!("Column-Major Order:");
-    array_col_major.print_row_major();
+    array_col_major.print_col_major();
 
 
     /*

@@ -1,13 +1,15 @@
-#[derive(Debug, Clone, Eq, PartialEq)]
+use std::fmt::Display;
+
 pub struct Array2<T: Clone> {
     width: usize,
     height: usize,
     data: Vec<Vec<T>>,
 }
 
-impl<T: Clone + std::fmt::Debug> Array2<T> {
+impl<T: Clone +  Display> Array2<T> {
     pub fn from_row_major(data: Vec<T>, height: usize, width: usize) -> Self {
         assert_eq!(height * width, data.len(), "Invalid dimensions");
+
         let mut rows = Vec::with_capacity(height);
         for chunk in data.chunks(width) {
             rows.push(chunk.to_vec());
@@ -23,7 +25,6 @@ impl<T: Clone + std::fmt::Debug> Array2<T> {
         assert_eq!(height * width, data.len(), "Invalid dimensions");
 
         let mut columns = vec![Vec::with_capacity(height); width];
-
         for (i, item) in data.into_iter().enumerate() {
             columns[i % width].push(item);
         }
@@ -59,14 +60,16 @@ impl<T: Clone + std::fmt::Debug> Array2<T> {
     }
 
     pub fn print_row_major(&self) {
-        for (elem, i, j) in self.iter_row_major() {
-            println!("Element: {:?}, Row: {}, Column: {}", elem, i, j);
+        for (elem, _, _) in self.iter_row_major() {
+            print!("Element: {}", elem);
+            println!();
         }
     }
 
     pub fn print_col_major(&self) {
-        for (elem, i, j) in self.iter_col_major() {
-            println!("Element: {:?}, Row: {}, Column: {}", elem, i, j);
+        for (elem, _, _) in self.iter_col_major() {
+            print!("Element {}", elem);
+            println!();
         }
     }
 }
