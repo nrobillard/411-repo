@@ -5,99 +5,71 @@ pub struct Array2<T: Clone> {
     data: Vec<Vec<T>>,
 }
 
-impl<T: Clone> Array2<T> {
-
-    /// Creates an Array2, given an input vector that is in row-major order
-    /// 
-    /// # Arguments
-    /// * data: Data to be stored in the Array2 in row-major order
-    /// * height: number of rows of the Array2
-    /// * width: number of columns of the Array2
-    /// 
-    /// # Returns
-    /// * An Array2
+impl<T: Clone + std::fmt::Debug> Array2<T> {
     pub fn from_row_major(data: Vec<T>, height: usize, width: usize) -> Self {
-        todo!();
+        assert_eq!(height * width, data.len(), "Invalid dimensions");
+        let mut rows = Vec::with_capacity(height);
+        for chunk in data.chunks(width) {
+            rows.push(chunk.to_vec());
+        }
+        Self {
+            width,
+            height,
+            data: rows,
+        }
     }
 
-    /// Creates an Array2, given an input vector that is in column-major order
-    /// 
-    /// # Arguments
-    /// * data: Data to be stored in the Array2 in column-major order
-    /// * height: number of rows of the Array2
-    /// * width: number of columns of the Array2
-    /// 
-    /// # Returns
-    /// * An Array2
     pub fn from_col_major(data: Vec<T>, height: usize, width: usize) -> Self {
-        todo!();
+        assert_eq!(height * width, data.len(), "Invalid dimensions");
+
+        let mut columns = vec![Vec::with_capacity(height); width];
+
+        for (i, item) in data.into_iter().enumerate() {
+            columns[i % width].push(item);
+        }
+
+        Self {
+            width,
+            height,
+            data: columns,
+        }
     }
 
-    /// Iterates over the Array2 in row-major order
-    /// 
-    /// # Arguments
-    /// None
-    /// 
-    /// # Returns
-    /// * An option containing a tuple of the element, row, and column
-    /// 
-    pub fn iter_row_major(&self) -> Option<(T, usize, usize)> {
-        todo!();
+    pub fn iter_row_major<'a>(&'a self) -> impl Iterator<Item = (T, usize, usize)> + 'a {
+        self.data.iter().enumerate().flat_map(move |(i, row)| {
+            row.iter().enumerate().map(move |(j, &ref elem)| (elem.clone(), i, j))
+        })
     }
 
-    /// Iterates over the Array2 in column-major order
-    /// 
-    /// # Arguments
-    /// None
-    /// 
-    /// # Returns
-    /// * An option containing a tuple of the element, row, and column
-    /// 
-    pub fn iter_col_major(&self) -> Option<(T, usize, usize)> {
-        todo!();
+    pub fn iter_col_major(&self) -> impl Iterator<Item = (T, usize, usize)> + '_ {
+        (0..self.width+1).flat_map(move |j| {
+            (0..self.height+1).filter_map(move |i| {
+                if i < self.data.len() && j < self.data[i].len() {
+                    Some((self.data[i][j].clone(), i, j))
+                } else {
+                    None
+                }
+            })
+        })
     }
 
-    /// Returns an element of an Array2
-    /// 
-    /// # Arguments
-    /// * row: row of the element to be returned
-    /// * column: column of the element to be returned
-    /// 
-    /// # Returns
-    /// * An element of the Array2
+
     pub fn find(&self, row: usize, column: usize) -> T {
-        todo!();
+        self.data[row][column].clone()
     }
 
-    /// Prints out the elements of an Array2 in row-major order
-    /// 
-    /// # Arguments 
-    pub fn print(&self) -> () {
-        todo!();
+    pub fn print_row_major(&self) {
+        for (elem, i, j) in self.iter_row_major() {
+            println!("Element: {:?}, Row: {}, Column: {}", elem, i, j);
+        }
     }
 
-}
-
-
-/*
-
-- Leftovers from the creation of the lib.rs file via "cargo new --lib array2"
-- Will probably be deleted once further instruction about where to put the Array2
-  implementation is given (Ayman said lib.rs is typcally for tests, and that the
-  implementation is typically in a separate file)
-
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    pub fn print_col_major(&self) {
+        for (elem, i, j) in self.iter_col_major() {
+            println!("Element: {:?}, Row: {}, Column: {}", elem, i, j);
+        }
     }
 }
-*/
+
+// Any additional functions or methods can be added outside the impl block
+// Need to make sure that the input is valid for the given dimensions
