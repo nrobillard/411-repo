@@ -6,7 +6,8 @@ pub struct Array2<T: Clone> {
     data: Vec<Vec<T>>,
 }
 
-impl<T: Clone +  Display> Array2<T> {
+impl<T: Clone + Display> Array2<T> {
+
     /// Creates an Array2, given an input vector that is in row-major order
     /// # Arguments
     /// * data: Data to be stored in the Array2 in row-major order
@@ -40,7 +41,6 @@ impl<T: Clone +  Display> Array2<T> {
         for (i, item) in data.into_iter().enumerate() {
             columns[i % width].push(item);
         }
-
         Self {
             width,
             height,
@@ -69,7 +69,7 @@ impl<T: Clone +  Display> Array2<T> {
     /// Although the function does not take any arguments, it borrows the Array2
     ///
     /// # Returns
-    /// an iterator over the Array2 in row-major order
+    /// an iterator over the Array2 in col-major order
     /// The type of this iterator is a tuple containing three elements:
     /// an element, a row index , and a column index .
 
