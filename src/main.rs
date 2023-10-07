@@ -72,9 +72,20 @@ fn main() {
     let input = env::args().nth(1);
     let img = GrayImage::read(input.as_deref()).unwrap();
     let pixels_row_major: Vec<u16> = img.pixels.iter().map(|pixel| pixel.value).collect();
-    let array_row_major = Array2::from_row_major(pixels_row_major, 9, 9);
+    let array_row_major = Array2::from_row_major(pixels_row_major.clone(), 9, 9);
 
     //let result = sudoku_check(&array_row_major);
     //println!("Sudoku is valid: {}", result);
     //array_row_major.print_row_major();
+
+    // Print dimensions
+    println!("Height: {}, Width: {}", array_row_major.height(), array_row_major.width());
+
+    // Print input data
+    for row in pixels_row_major.chunks(9) {
+        println!("{:?}", row);
+    }
+
+    // Print rows in row-major order
+    array_row_major.print_row_major();
 }

@@ -93,7 +93,7 @@ impl<T: Clone + Display> Array2<T> {
     pub fn print_row_major(&self) {
         for (elem, _height, width) in self.iter_row_major() {
             println!("Element: {}", elem);
-            if(width == self.width-1) {
+            if width == self.width-1 {
                 println!("|");
             }
         }
@@ -105,7 +105,15 @@ impl<T: Clone + Display> Array2<T> {
             println!("Element {}", elem);
         }
     }
+
+    /// Returns the height of the Array2
+    pub fn height(&self) -> usize {
+        self.height
+    }
+
+    /// Returns the width of the Array2
+    pub fn width(&self) -> usize {
+        self.width
+    }
 }
 
-// Any additional functions or methods can be added outside the impl block
-// Need to make sure that the input is valid for the given dimensions
