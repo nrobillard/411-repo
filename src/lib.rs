@@ -93,11 +93,7 @@ impl<T: Clone + Display> Array2<T> {
     pub fn print_row_major(&self) {
         for (elem, _height, width) in self.iter_row_major() {
             println!("Element: {}", elem);
-            if width == self.width-1 {
-                println!("|");
-            }
         }
-
     }
 
     pub fn print_col_major(&self) {
