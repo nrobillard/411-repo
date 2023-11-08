@@ -1,0 +1,2 @@
+This file was used to create directories before adding files to them
+Github won't let me delete this
