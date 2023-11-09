@@ -21,3 +21,13 @@ pub struct DCTData {
     pub c: f32,
     pub d: f32,
 }
+
+#[derive(Clone, Debug)]
+pub struct QuantData {
+    pub ind_pb: u64,
+    pub ind_pr: u64,
+    pub a: u64,
+    pub b: i64,
+    pub c: i64,
+    pub d: i64,
+}

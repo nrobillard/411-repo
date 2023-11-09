@@ -1,7 +1,7 @@
 use array2::Array2;
 use csc411_image::Rgb;
 
-pub fn trim_img(img: &Array2<Rgb>) -> Array2<Rgb> {
+pub fn trim_img(img: Array2<Rgb>) -> Array2<Rgb> {
     
     // Get the trimmed width/height (if need be)
     let new_height = if img.height() % 2 != 0 { img.height() - 1 } else { img.height() };

@@ -1,7 +1,7 @@
 use array2::Array2;
 use crate::rpeg_structs::{CompVid, DCTData};
 
-pub fn cv_to_dct(img: &Array2<CompVid>) -> Array2<DCTData> {
+pub fn cv_to_dct(img: Array2<CompVid>) -> Array2<DCTData> {
     
     // Make a new vector to hold all the DCT data for each 2x2 chunk of pixels
     let dct_img: Vec<DCTData> = img.iter_row_major()
@@ -12,7 +12,7 @@ pub fn cv_to_dct(img: &Array2<CompVid>) -> Array2<DCTData> {
         let pixel2 = img.get(row, col + 1).unwrap();
         let pixel3 = img.get(row + 1, col).unwrap();
         let pixel4 = img.get(row + 1, col + 1).unwrap();
-        
+
         // Compute the DCT data values
         let avgpb = (pixel1.pb + pixel2.pb + pixel3.pb + pixel4.pb) / 4.0;
         let avgpr = (pixel1.pr + pixel2.pr + pixel3.pr + pixel4.pr) / 4.0;
@@ -30,7 +30,7 @@ pub fn cv_to_dct(img: &Array2<CompVid>) -> Array2<DCTData> {
     
 }
 
-pub fn dct_to_cv(img: &Array2<DCTData>) -> Array2<CompVid> {
+pub fn dct_to_cv(img: Array2<DCTData>) -> Array2<CompVid> {
 
     // Make a new vector to hold all the component video data
     let mut cv_img = Array2::set_array_zero(CompVid { y: 0.0, pb: 0.0, pr: 0.0 }, img.height() * 2, img.width() * 2);

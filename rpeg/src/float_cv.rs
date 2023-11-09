@@ -1,7 +1,7 @@
 use array2::Array2;
 use crate::rpeg_structs::{FloatRgb, CompVid};
 
-pub fn frgb_to_cv(img: &Array2<FloatRgb>) -> Array2<CompVid> {
+pub fn frgb_to_cv(img: Array2<FloatRgb>) -> Array2<CompVid> {
     
     // Make a new vector to hold all the component video data
     // Compute and map component video values for each pixel given the rgb values
@@ -19,7 +19,7 @@ pub fn frgb_to_cv(img: &Array2<FloatRgb>) -> Array2<CompVid> {
 
 }
 
-pub fn cv_to_frgb(img: &Array2<CompVid>) -> Array2<FloatRgb> {
+pub fn cv_to_frgb(img: Array2<CompVid>) -> Array2<FloatRgb> {
 
     // Make a new vector to hold the rgb data
     // Compute and map the rgb values for each pixel given the y, pb, and pr values
